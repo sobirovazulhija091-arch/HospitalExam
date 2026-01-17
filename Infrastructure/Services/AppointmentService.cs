@@ -6,6 +6,7 @@ public class AppointmentService(ApplicationDbcontext dbcontext) : IAppointmentSe
       private readonly ApplicationDbcontext _dbcontext=dbcontext;
     public async Task<Response<string>> AddAsync(AppointmentDto appointmentDto)
     {
+
         using var conn = _dbcontext.Connaction();
         var query="insert into appointments(patientid,slotid,status) values(@patientid,@slotid,@status)";
         var res = await conn.ExecuteAsync(query , new{patientid=appointmentDto.PatientId,
@@ -24,7 +25,7 @@ public class AppointmentService(ApplicationDbcontext dbcontext) : IAppointmentSe
     public async Task<List<Appointment>> GetAsync()
     {
          using var conn = _dbcontext.Connaction();
-        var query="select s.*,p.*,a.* from appointments a join schedule_slot s on s.id=a.slotid join patients p on p.id=a.patientid";
+        var query="select s.*,p.*,a.* from appointments a join schedule_slots s on s.id=a.slotid join patients p on p.id=a.patientid";
         var res = await conn.QueryAsync<Appointment>(query);
         return res.ToList();
     }
@@ -34,7 +35,7 @@ public class AppointmentService(ApplicationDbcontext dbcontext) : IAppointmentSe
         var query="select * from appointments where id=@Id";
         var res = await conn.QueryFirstOrDefaultAsync<Appointment>(query,new{Id=appointmentid});
         return res ==null? new Response<Appointment>(HttpStatusCode.NotFound,"NotFound")
-        :new Response<Appointment>(HttpStatusCode.OK,"Ok");
+        :new Response<Appointment>(HttpStatusCode.OK,"Ok",res);
     }
     public async Task<List<Appointment>> GetWhitDoctorAsync(int appointmentid)
     {
@@ -46,7 +47,7 @@ public class AppointmentService(ApplicationDbcontext dbcontext) : IAppointmentSe
     public async Task<Response<string>> UpdateAsync(UpdatedAppointmentDto updatedAppointmentDto)
     {
            using var conn = _dbcontext.Connaction();
-       var query="update appointments set status=@Statues,patientid=@PatientId,slotid=@SlotId,updatedat=now() WHERE id = @AppointmentId";
+       var query="update appointments set status = @Status,patientid=@PatientId,slotid=@SlotId,updatedat=now() WHERE id = @Id";
         var res = await conn.ExecuteAsync(query,updatedAppointmentDto);
         return res==0? new Response<string>(HttpStatusCode.NotFound,"NotFound") : new Response<string>(HttpStatusCode.OK,"Ok");
     }

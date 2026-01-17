@@ -21,6 +21,6 @@ public class RequestTimeMiddleware(RequestDelegate next,ILogger<RequestTimeMiddl
         }
         var end = DateTime.Now;
         _logger.LogInformation("Successfully");
-        Console.WriteLine($"request taked{(end-start).TotalMicroseconds} ms");
+        Console.WriteLine($"request taked: {(end-start).TotalMicroseconds} ms");
     }
 }

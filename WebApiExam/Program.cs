@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<RequestTimeMiddleware>();
 builder.Services.AddScoped<IAppointmentService,AppointmentService>();
+builder.Services.AddScoped<ApplicationDbcontext>();
 builder.Services.AddScoped<IDoctorService,DoctorService>();
 builder.Services.AddScoped<IPatientService,PatientService>();
 builder.Services.AddScoped<IRoomService,RoomService>();

@@ -19,17 +19,17 @@ public class DoctorController(IDoctorService doctorService):ControllerBase
     {
         return await doctorService.GetAsync();
     }
- [HttpGet("id")]
+ [HttpGet("{doctorid}")]
     public async Task<Response<Doctor>> GetByIdAsync(int doctorid)
     {
         return await doctorService.GetByIdAsync(doctorid);
     }
-[HttpPatch]
+[HttpPatch("{doctorid}/active")]
     public async Task<Response<string>> UpdateActiveAsync(int doctorid,bool active)
     {
         return await doctorService.UpdateActiveAsync(doctorid,active);
     }
-[HttpPut]
+ [HttpPut("doctorid")]
     public async Task<Response<string>> UpdateAsync(UpdateDoctorDto updateDoctorDto)
     {
        return await doctorService.UpdateAsync(updateDoctorDto);

@@ -37,12 +37,12 @@ public class RoomService(ApplicationDbcontext dbcontext):IRoomService
         var query="select * from rooms where id=@Id";
         var res = await conn.QueryFirstOrDefaultAsync<Room>(query,new{Id=roomid});
         return res ==null? new Response<Room>(HttpStatusCode.NotFound,"NotFound")
-        :new Response<Room>(HttpStatusCode.OK,"Ok");
+        :new Response<Room>(HttpStatusCode.OK,"Ok",res);
     }
     public async Task<Response<string>> UpdateActiveAsync(int roomid,bool active)
     {
         using var conn = _dbcontext.Connaction();
-        var query="update rooms set isactive=@Isactive, WHERE id = @Id";
+        var query="update rooms set isactive=@Isactive WHERE id = @Id";
        var res = await conn.ExecuteAsync(query,new{Isactive=active,Id=roomid});
         return res==0? new Response<string>(HttpStatusCode.NotFound,"NotFound") : new Response<string>(HttpStatusCode.OK,"Ok");
     }

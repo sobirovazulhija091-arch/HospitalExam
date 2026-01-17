@@ -29,7 +29,7 @@ public class ScheduleslotController(IScheduleSlotService scheduleSlotService):Co
     {
          return await scheduleSlotService.GetDoctorAsync(schedule_slotid);
     }
-
+[HttpPatch]
     public async Task<Response<string>> UpdateActiveAsync(int schedule_slotid, bool active)
     {
         return await scheduleSlotService.UpdateActiveAsync(schedule_slotid,active);

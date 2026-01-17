@@ -29,7 +29,7 @@ public class AppointmentController(IAppointmentService appointmentService):Contr
     {
          return await appointmentService.GetWhitDoctorAsync(appointmentid);
     }
-    [HttpPatch("updateappoinmentdto")]
+    [HttpPut("updateappoinmentdto")]
     public async Task<Response<string>> UpdateAsync(UpdatedAppointmentDto updatedAppointmentDto)
     {
          return await appointmentService.UpdateAsync(updatedAppointmentDto);
